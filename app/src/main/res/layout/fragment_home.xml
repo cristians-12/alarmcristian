@@ -9,45 +9,59 @@
     <TextView
         android:id="@+id/selectedTime"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <Button
-        android:id="@+id/showHourBtn"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Seleccionar hora"
 
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/setAlarmBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Poner alarma"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/showHourBtn" />
-
-    <Button
-        android:id="@+id/cancelBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="cancelar alarma"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/setAlarmBtn" />
-
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/notificationBtn"
-        android:text="notify!!"
         />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bienvenido a DosificApp"
+        android:textSize="22dp"
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/dosificarBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Dosificar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title" />
+    <!--    <Button-->
+<!--        android:id="@+id/showHourBtn"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Seleccionar hora"-->
+
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--    <Button-->
+<!--        android:id="@+id/setAlarmBtn"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Poner alarma"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/showHourBtn" />-->
+
+<!--    <Button-->
+<!--        android:id="@+id/cancelBtn"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="cancelar alarma"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/setAlarmBtn" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -19,6 +19,4 @@ interface AlarmDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAlarm(alarm: AlarmEntity)
 
-    @Delete
-    suspend fun deleteAlarms()
 }

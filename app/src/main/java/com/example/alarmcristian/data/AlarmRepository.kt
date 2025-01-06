@@ -16,7 +16,4 @@ class AlarmRepository @Inject constructor(private val alarmDao: AlarmDao) {
         alarmDao.insertAll(listOf(alarm))
     }
 
-    suspend fun clearAlarms(){
-        alarmDao.deleteAlarms();
-    }
 }

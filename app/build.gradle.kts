@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     id("org.jetbrains.kotlin.kapt")
     id("com.google.dagger.hilt.android")
+
 }
 
 android {
@@ -56,8 +57,9 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.material)
     implementation(libs.gson)
-    implementation(libs.hilt.android)
-    kapt(libs.hilt.android.compiler)
+
+    implementation(libs.hilt.android.v254)
+    kapt(libs.hilt.compiler)
 
     // Room dependencies
     val roomVersion = "2.6.1" // Cambia según la última versión disponible

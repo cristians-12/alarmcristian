@@ -1,4 +1,4 @@
-package com.example.alarmcristian
+package com.example.alarmcristian.ui.view
 
 import android.app.AlarmManager
 import android.app.NotificationManager
@@ -9,18 +9,22 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.example.alarmcristian.AlarmReceiver
+import com.example.alarmcristian.R
 import com.example.alarmcristian.databinding.ActivityMainBinding
 import com.example.alarmcristian.fragments.AddAlarm
+import com.example.alarmcristian.fragments.AlarmasProgramadas
 import com.example.alarmcristian.fragments.Alarms
 import com.example.alarmcristian.fragments.Home
 import com.example.alarmcristian.utils.Alarm
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
+import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.HiltAndroidApp
 import java.util.Calendar
 
 
-@HiltAndroidApp
+//@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
@@ -48,14 +52,6 @@ class MainActivity : AppCompatActivity() {
             )
         }
 
-//        binding.selectTimeBtn.setOnClickListener {
-//            showTimePicker()
-//        }
-//
-//        binding.makeAlarm.setOnClickListener{
-//            setAlarm()
-//        }
-
         // Configura el listener de BottomNavigationView
         binding.bottomNavigation.setOnItemSelectedListener { item ->
             when (item.itemId) {
@@ -74,10 +70,14 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
 
+                R.id.ic_alarmas_programadas -> {
+                    replaceFragment(AlarmasProgramadas())
+                    true
+                }
+
                 else -> false
             }
         }
-
         // Carga el fragmento inicial
         if (savedInstanceState == null) {
             replaceFragment(Home())

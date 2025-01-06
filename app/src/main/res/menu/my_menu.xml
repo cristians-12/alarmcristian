@@ -1,19 +1,23 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/ic_home"
-        android:title="Panel principal"
-        android:icon="@drawable/ic_home"
         android:color="@color/purple_700"
+        android:icon="@drawable/ic_home"
+        android:title="Panel principal" />
+    <item
+        android:color="@color/purple_700"
+        android:icon="@drawable/ic_alarm"
+        android:title="Alarmas"
+        android:id="@+id/ic_alarmas_programadas"
         />
     <item
         android:id="@+id/ic_alarms"
-        android:title="Dosificacion"
-        android:icon="@drawable/ic_alarm"
         android:color="@color/purple_700"
-        />
+        android:icon="@drawable/ic_add_alarm"
+        android:title="Dosificacion" />
     <item
         android:id="@+id/ic_add_alarm"
-        android:title="Manual"
         android:color="@color/purple_700"
-        android:icon="@drawable/ic_manual" />
+        android:icon="@drawable/ic_manual"
+        android:title="Manual" />
 </menu>

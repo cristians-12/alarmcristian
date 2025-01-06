@@ -16,7 +16,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity.ALARM_SERVICE
 import androidx.core.app.NotificationCompat
 import com.example.alarmcristian.AlarmReceiver
-import com.example.alarmcristian.MainActivity
+import com.example.alarmcristian.ui.view.MainActivity
 import com.example.alarmcristian.R
 import com.example.alarmcristian.databinding.FragmentHomeBinding
 import com.google.android.material.timepicker.MaterialTimePicker
@@ -47,21 +47,18 @@ class Home : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // Configura el botón o acciones que necesiten el binding aquí
-        binding.showHourBtn.setOnClickListener {
-            showTimePicker()
-        }
+//        binding.showHourBtn.setOnClickListener {
+//            showTimePicker()
+//        }
+//
+//        binding.setAlarmBtn.setOnClickListener {
+//            setAlarm()
+//        }
+//
+//        binding.cancelBtn.setOnClickListener {
+//            cancelAlarm()
+//        }
 
-        binding.setAlarmBtn.setOnClickListener {
-            setAlarm()
-        }
-
-        binding.cancelBtn.setOnClickListener {
-            cancelAlarm()
-        }
-
-        binding.notificationBtn.setOnClickListener {
-            showNotification()
-        }
     }
 
 
@@ -70,7 +67,8 @@ class Home : Fragment() {
             val channelId = "alarmcristian"
             val name = "Alarm Notifications"
             val description = "Channel for alarm notifications"
-            val importance = NotificationManager.IMPORTANCE_HIGH // Asegúrate de que la importancia sea alta
+            val importance =
+                NotificationManager.IMPORTANCE_HIGH // Asegúrate de que la importancia sea alta
 
             // Crear el canal de notificación
             val channel = NotificationChannel(channelId, name, importance).apply {
@@ -85,7 +83,6 @@ class Home : Fragment() {
             notificationManager?.createNotificationChannel(channel)
         }
     }
-
 
 
     private fun showTimePicker() {

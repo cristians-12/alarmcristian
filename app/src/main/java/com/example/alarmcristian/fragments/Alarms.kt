@@ -1,24 +1,35 @@
 package com.example.alarmcristian.fragments
 
-import android.R
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.example.alarmcristian.data.database.DatabaseBuilder
+import com.example.alarmcristian.data.database.dao.AlarmDao
+import com.example.alarmcristian.data.database.entities.AlarmEntity
 import com.example.alarmcristian.databinding.FragmentAlarmsBinding
+import com.google.android.material.timepicker.MaterialTimePicker
+import com.google.android.material.timepicker.TimeFormat
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.Calendar
 import java.util.Date
 
 class Alarms : Fragment() {
     lateinit var binding: FragmentAlarmsBinding
+    lateinit var alarmDao: AlarmDao
+    var fechaSeleccionada: AlarmEntity = AlarmEntity(0, Date());
+    lateinit var picker: MaterialTimePicker
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        val database = DatabaseBuilder.getDatabase(requireContext())
+        alarmDao = database.getAlarmDao()  // Accedemos al DAO
     }
 
     override fun onCreateView(
@@ -26,59 +37,30 @@ class Alarms : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentAlarmsBinding.inflate(inflater, container, false)
-        // Inflate the layout for this fragment
-//        return inflater.inflate(R.layout.fragment_alarms, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        val spinner = binding.weekSpinner
-
         val calendarView = binding.calendarView
 
-        val options = listOf("semana 1", "semana 2", "semana 3", "semana 4", "semana 5")
-
-        val adapter = ArrayAdapter(
-            requireContext(),
-            R.layout.simple_spinner_dropdown_item,
-            options
-        )
-
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-//        spinner.adapter = adapter
-
-//        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-//            override fun onItemSelected(
-//                parent: AdapterView<*>?,
-//                view: View?,
-//                position: Int,
-//                id: Long
-//            ) {
-//                val selectedOption = options[position]
-//
-//                Toast.makeText(
-//                    requireContext(),
-//                    "Seleccionaste: $selectedOption",
-//                    Toast.LENGTH_SHORT
-//                ).show()
-//            }
-//
-//            override fun onNothingSelected(parent: AdapterView<*>?) {
-//
-//            }
-//        }
-
         calendarView.setOnDateChangeListener { view, year, month, dayOfMonth ->
-            val selectedDate = "$dayOfMonth/${month + 1}/$year"
+            val selectedDate: AlarmEntity = AlarmEntity(0, Date(year, month, dayOfMonth))
             handleDateSelection(selectedDate, year, month)
-
+        }
+        binding.btnAgregar.setOnClickListener {
+            showTimePicker()
+//            CoroutineScope(Dispatchers.IO).launch {
+//                alarmDao.insertAlarm(fechaSeleccionada)
+//                withContext(Dispatchers.Main) {
+//
+//                }
+//            }
         }
     }
 
-    private fun handleDateSelection(selectedDate: String, year: Int, month: Int) {
-
+    private fun handleDateSelection(selectedDate: AlarmEntity, year: Int, month: Int) {
         val currentCalendar = Calendar.getInstance()
         val currentMonth = currentCalendar.get(Calendar.MONTH)
         val currentYear = currentCalendar.get(Calendar.YEAR)
@@ -90,21 +72,59 @@ class Alarms : Fragment() {
                 Toast.LENGTH_SHORT
             ).show()
         } else {
-            Toast.makeText(
-                requireContext(),
-                "Fecha seleccionada: $selectedDate",
-                Toast.LENGTH_SHORT
-            ).show()
+            fechaSeleccionada = selectedDate
+            // Crear un objeto Calendar con la fecha seleccionada
+//            val calendar = Calendar.getInstance()
+//            calendar.set(selectedDate.date)
 
-            val targetFragment = Dosificacion()
-            parentFragmentManager.beginTransaction()
-                .replace(binding.container.id, targetFragment)
-                .addToBackStack(null)
-                .commit()
+            // Crear el objeto AlarmEntity con la fecha seleccionada
+//            val alarmEntity = AlarmEntity(date = calendar.time)
+
+            // Ahora asignamos la fecha seleccionada al campo fechaSeleccionada
+//            fechaSeleccionada = alarmEntity
+
         }
     }
 
-    private fun replaceFragment(fragment: Fragment){
-//        val transaction = supportFragmentManager.beginTransaction()
+    private fun showTimePicker() {
+        picker = MaterialTimePicker.Builder()
+            .setTimeFormat(TimeFormat.CLOCK_24H)
+            .setHour(12) // Opcional: Hora inicial
+            .setMinute(0) // Opcional: Minuto inicial
+            .setTitleText("Selecciona la hora")
+            .build()
+
+        picker.show(parentFragmentManager, "timePicker")
+
+        picker.addOnPositiveButtonClickListener {
+            // Combinamos la hora y la fecha seleccionada
+            val calendar = Calendar.getInstance()
+
+            // Asignamos la hora y minuto seleccionados
+            calendar.set(Calendar.HOUR_OF_DAY, picker.hour)
+            calendar.set(Calendar.MINUTE, picker.minute)
+
+            // Si ya tienes la fecha seleccionada de otro lugar, la combinamos con la hora
+            val fechaCompleta = fechaSeleccionada.date // La fecha seleccionada del calendario
+            calendar.set(Calendar.YEAR, fechaCompleta.year + 1900) // Asegurarse de ajustar el año
+            calendar.set(Calendar.MONTH, fechaCompleta.month)
+            calendar.set(Calendar.DAY_OF_MONTH, fechaCompleta.date)
+
+            // Creamos la nueva fecha con la hora y la fecha seleccionada
+            val nuevaFecha = calendar.time // Esta es la fecha completa con la hora seleccionada
+
+            // Ahora, asignamos esa fecha a la entidad AlarmEntity
+            fechaSeleccionada = AlarmEntity(date = nuevaFecha)
+
+            // Insertamos la alarma en la base de datos
+            CoroutineScope(Dispatchers.IO).launch {
+                alarmDao.insertAlarm(fechaSeleccionada) // Insertamos la alarma en la base de datos
+                withContext(Dispatchers.Main) {
+                    // Aquí puedes mostrar un mensaje o realizar alguna acción tras la inserción
+                    Toast.makeText(requireContext(), "Alarma guardada", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
     }
+
 }

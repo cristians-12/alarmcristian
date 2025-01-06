@@ -11,8 +11,5 @@ data class AlarmEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id") val id: Int = 0,
     @ColumnInfo(name = "date") val date: Date
-) {
-
-}
-
+)
 fun Alarm.toDatabase() = AlarmEntity(date = date)
